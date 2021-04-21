@@ -1,0 +1,24 @@
+name: CRD
+
+on: 
+  workflow_dispatch:
+    inputs:
+      authcode:
+        description: 'Enter CRD Code - CRD Kodunuzu Giriniz'
+        required: true
+      pincode:
+        description: 'Six Digit Pin - 6 Haneli Şifreniz'
+        required: true
+  
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Initializing Setup
+      run: ./setup.ps1
+    - name: Starting CRD - Çalıştırılıyor
+      run: ${{ github.event.inputs.authcode }} -pin=${{ github.event.inputs.pincode }}
+    - name: Keep Alive - Bu Siteyi Arkada Açık Tutun
+      run: ./timeout.ps1
